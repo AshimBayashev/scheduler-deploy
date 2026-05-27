@@ -1,0 +1,18 @@
+{
+	email admin@zalupa0613.kz
+}
+
+# UI — основной домен
+zalupa0613.kz {
+	reverse_proxy ui:80
+}
+
+# www → без www
+www.zalupa0613.kz {
+	redir https://zalupa0613.kz{uri} permanent
+}
+
+# API — отдельный поддомен
+api.zalupa0613.kz {
+	reverse_proxy api:3000
+}

@@ -21,15 +21,15 @@ services:
     build:
       context: ./repos/api
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
+      # Только то, что отличается от .env (хост БД внутри docker-сети).
+      # Секреты (JWT, TELEGRAM_BOT_TOKEN и т.д.) — только через env_file,
+      # иначе ${TELEGRAM_BOT_TOKEN:-} может перезаписать их пустой строкой.
       PORT: 3000
       DB_HOST: postgres
       DB_PORT: 5432
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: ${DB_NAME}
-      JWT_SECRET: ${JWT_SECRET}
-      CORS_ORIGIN: ${CORS_ORIGIN}
     depends_on:
       postgres:
         condition: service_healthy
